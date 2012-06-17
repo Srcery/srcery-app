@@ -1,5 +1,8 @@
 {
     "require": {
-        "silex/silex": "1.0.*"
+        "silex/silex": "1.0.*",
+        "fate/silex-extensions": "*",
+        "doctrine/mongodb": "*",
+        "doctrine/common" : "*"
     }
 }

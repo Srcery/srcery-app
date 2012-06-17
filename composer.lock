@@ -1,6 +1,21 @@
 {
-    "hash": "ddc642090210e54b201209895361395d",
+    "hash": "87e77fc3f5867d891da82d872a8cba84",
     "packages": [
+        {
+            "package": "doctrine/common",
+            "version": "dev-master",
+            "source-reference": "80838882abc04270fb9bc5812da4ab64e2ee3f88"
+        },
+        {
+            "package": "doctrine/mongodb",
+            "version": "dev-master",
+            "source-reference": "1a8380ff6b8a2ccdb09ebde375ad5b0b9449e3f1"
+        },
+        {
+            "package": "fate/silex-extensions",
+            "version": "dev-master",
+            "source-reference": "19e11ccb7a6ab32be0879d1a3b4b3af57eea76c9"
+        },
         {
             "package": "pimple/pimple",
             "version": "dev-master",
@@ -21,7 +36,12 @@
         {
             "package": "silex/silex",
             "version": "dev-master",
-            "source-reference": "2ebc4768f97dd0c580ac5ffc9152cd9b4085fd7e"
+            "source-reference": "55d7a266dcd3c14eb40b476dcf5e56bdaedd3dd2"
+        },
+        {
+            "package": "symfony/console",
+            "version": "dev-master",
+            "source-reference": "afc5ecf2967bf3510363535c0389ddc0f6284784"
         },
         {
             "package": "symfony/event-dispatcher",
@@ -66,6 +86,11 @@
             "package": "symfony/routing",
             "version": "dev-master",
             "source-reference": "9e0b9b0d4143a6b90752e1111d9948416ef62b50"
+        },
+        {
+            "package": "symfony/yaml",
+            "version": "dev-master",
+            "source-reference": "8272d98f8087878db37e8e5f6d4e37c5cc783dc3"
         }
     ],
     "packages-dev": null,
