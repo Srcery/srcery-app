@@ -30,13 +30,13 @@ $app->get('/', function() use($app) {
    return 'welcome to srcery';
 });
 
-/*$app->get('/login', function() use ($app) {
+$app->get('/mongotest', function() use ($app) {
   $coll = $app['mongodb']->selectDatabase('srcery_mongodb')->selectCollection('test_collection');
   $result = $coll->find()->toArray();
   $response = new Response();
   $response->headers->set('Content-type', 'application/json');
   $response->setContent(json_encode($result));
  return $response;
-});*/
+});
 
 $app->run();
