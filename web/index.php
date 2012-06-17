@@ -37,7 +37,7 @@ $app->get('/mongotest', function() use ($app) {
   $response = new Response();
   $response->headers->set('Content-type', 'application/json');
   $response->setContent(json_encode($result));
- return $response;
+  return $response;
 });
 
 $app->run();
