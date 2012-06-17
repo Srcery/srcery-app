@@ -12,9 +12,10 @@ $app['debug'] = TRUE;
 
 // Extension registers.
 // SessionServiceProvider
-//$app->register(new Silex\Provider\SessionServiceProvider());
-// Mongo
+$app->register(new Silex\Provider\SessionServiceProvider());
 
+// Mongo
+// @todo - move these off to env specific files
 $app->register(new SilexExtension\MongoDbExtension(), array(
   'mongodb.class_path' => __DIR__ . '/../vendor/mongodb/lib',
   'mongodb.connection' => array(
