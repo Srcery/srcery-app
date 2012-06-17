@@ -1,0 +1,79 @@
+{
+    "hash": "ddc642090210e54b201209895361395d",
+    "packages": [
+        {
+            "package": "pimple/pimple",
+            "version": "dev-master",
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
+        },
+        {
+            "package": "pimple/pimple",
+            "version": "dev-master",
+            "source-reference": "694448bdd2b7d802517104bdafe1a6f2591506c8"
+        },
+        {
+            "package": "silex/silex",
+            "version": "dev-master",
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
+        },
+        {
+            "package": "silex/silex",
+            "version": "dev-master",
+            "source-reference": "2ebc4768f97dd0c580ac5ffc9152cd9b4085fd7e"
+        },
+        {
+            "package": "symfony/event-dispatcher",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/event-dispatcher",
+            "version": "dev-master",
+            "source-reference": "30d3f5da80c2aeab15bcdb5a7d448d15bc294b23"
+        },
+        {
+            "package": "symfony/http-foundation",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/http-foundation",
+            "version": "dev-master",
+            "source-reference": "5d15807c883c6a927eb3ac3c04e9a3f62b92e5b4"
+        },
+        {
+            "package": "symfony/http-kernel",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/http-kernel",
+            "version": "dev-master",
+            "source-reference": "cca9802587090c5d24ed015437cebdb4e6a770c0"
+        },
+        {
+            "package": "symfony/routing",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/routing",
+            "version": "dev-master",
+            "source-reference": "9e0b9b0d4143a6b90752e1111d9948416ef62b50"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "dev",
+    "stability-flags": [
+
+    ]
+}
