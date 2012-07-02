@@ -5,3 +5,7 @@
 /vendor/
 /app/config/parameters.ini
 *.sublime*
+.buildpath
+.project
+.settings/*
+

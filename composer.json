@@ -4,5 +4,10 @@
         "fate/silex-extensions": "*",
         "doctrine/mongodb": "*",
         "doctrine/common" : "*"
+    },
+    "autoload": {
+        "psr-0": {
+          "Srcery": "src/"
+        }
     }
 }

@@ -1,3 +1,11 @@
+##Composer
+
+All composer setting should be in the composer.json file.
+
+Initially run `php composer.phar install`  
+
+But as you make changes, `php composer.phar update`.
+
 ##Install Mongo On Mac
 
 **I'm using mongohub as the sequelPro for mongo**
