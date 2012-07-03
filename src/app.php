@@ -30,7 +30,7 @@ $app->register(new SilexExtension\MongoDbExtension(), array(
 
 $app->register(new Srcery\Server\SrceryServiceProvider(), array(
   'srcery.folder' => __DIR__ . '/../web/images',
-  'srcery.place_holder' => __DIR__ . '/../web/assets/default_images',
+  'srcery.place_holder' => 'placeholder.png',
   'srcery.mongodb_name' => 'srcery_mongodb',
 ));
 

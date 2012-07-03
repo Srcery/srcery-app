@@ -39,6 +39,7 @@ class SrceryServiceProvider implements ServiceProviderInterface
         }
         return $resource;
       });
+
     }
 
     public function boot(Application $app)

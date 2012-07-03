@@ -45,17 +45,21 @@ class File extends Resource {
     }
 
     // If the file exists, then stream it to the browser.
+    $abool = file_exists($file);
     if (file_exists($file) && ($fp = fopen($file, 'rb'))) {
 
-      $response = new Response(200, array(), array(
+      /*$response = new Response(200, array(), array(
         'Content-Type: image/png',
         "Content-Length: " . filesize($file)
-      ));
+      ));*/
+      $response = new Response('', 200);
+      $response->headers->set('Content-Type', 'image/png');
+      $response->headers->set('Content-Length',  filesize($file));
       fpassthru($fp);
       fclose($fp);
     }
     else {
-      $response = new Response(404);
+      $response = new Response('File not found', 404);
     }
 
     return $response;
@@ -84,7 +88,7 @@ class File extends Resource {
 
         // Check to see if this image has the extensions allowed.
         if (!in_array($this->extension($new_file['name']), $allowed_ext)) {
-          return new Response(406, 'Only ' . implode(',', $allowed_ext) . ' files are allowed!');
+          return new Response('Only ' . implode(',', $allowed_ext) . ' files are allowed!', 406);
         }
 
         // For now just delete the old file.
@@ -94,14 +98,14 @@ class File extends Resource {
 
         // Now move the image upload to the upload directory.
         if (move_uploaded_file($new_file['tmp_name'], $file)) {
-          return new Response(200, array('id' => $this->id));
+          return new Response(json_encode(array('id' => $this->id)), 200);
         }
       }
     }
 
     // Return a 406 error.
-
-    return new Response('', 406, array(header('HTTP/1.1 406 Not Acceptable', true, 406)));
+    return new Response('', 406);
+    //return new Response('', 406, array(header('HTTP/1.1 406 Not Acceptable', true, 406)));
   }
 
   /**

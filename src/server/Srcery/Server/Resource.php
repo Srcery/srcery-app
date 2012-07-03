@@ -3,6 +3,7 @@
 namespace Srcery\Server;
 
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Response;
 
 class Resource {
 
@@ -38,8 +39,7 @@ class Resource {
     }
 
     // Return an error.
-    header('HTTP/1.1 406 Not Acceptable', true, $code);
-    return new Response(406);
+    return new Response('Invalid Request', 406);
   }
 
   /** Get the values of this resource. */
@@ -59,23 +59,23 @@ class Resource {
 
   /** Load values from the database */
   public function load() {
-    return new Response(200, array_merge(
+    return new Response(json_encode(array_merge(
       $this->mongoLoad(),
       $this->get()
-    ));
+    )), 200);
   }
 
   /** Save this resource to the database. */
   public function save() {
     if (($object = $this->get()) && $this->db->save($object)) {
-      return new Response(200, $object);
+      return new Response(json_encode($object), 200);
     }
-    return new Response(406, 'An error occured while saving.');
+    return new Response('An error occured while saving.', 406);
   }
 
   /** Deletes a resource from the database. */
   public function delete() {
-    return $this->db->delete() ? new Response(200) : new Response(406);
+    return $this->db->delete() ? new Response('', 200) : new Response('', 406);
   }
 
   /** Loads a mongo object, and sanitizes it. */
