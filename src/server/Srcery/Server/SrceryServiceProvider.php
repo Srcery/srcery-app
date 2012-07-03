@@ -14,25 +14,25 @@ class SrceryServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-      //$a = $b;
+
       $defaults = array(
-        'folder' => '',
-        'place_holder' => '',
-        'mongodb_name' => '',
+        'folder' => array(),
+        'place_holder' => array(),
+        'mongodb_name' => 'srcery_mongodb',
+        'resource_collection_name' => '',
       );
 
       $app['srcery.activeresource'] = $app->share(function () use ($app, $defaults) {
-        $db_name = $app['srcery.mongodb_name'];
+        $db_name = $app['srcery.mongodb_name'] ? $app['srcery.mongodb_name'] : $defaults['mongodb_name'];
         $db = $app['mongodb']->selectDatabase($db_name);
-        $collection_name = 'resources';
+        $collection_name = $app['srcery.resource_collection_name'] ? $app['srcery.resource_collection_name'] : $defaults['resource_collection_name'];
         $mongoResource = new MongoResource($db, $collection_name, $app['srcery.params']);
 
         $options = array(
-          'folder' => $app['srcery.folder'],
-          'place_holder' => $app['srcery.place_holder'],
+          'folder' => $app['srcery.folder'][$app['srcery.resource_type']],
+          'place_holder' => $app['srcery.place_holder'][$app['srcery.resource_type']],
         );
         switch ($app['srcery.resource_type']) {
-          // @todo possibly pass mongoresource or app inside of closure, and let the class instantiate its own.
           case 'img':
             $resource = new Image($mongoResource, $app['srcery.params'], $options);
             break;

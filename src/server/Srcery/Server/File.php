@@ -45,13 +45,7 @@ class File extends Resource {
     }
 
     // If the file exists, then stream it to the browser.
-    $abool = file_exists($file);
     if (file_exists($file) && ($fp = fopen($file, 'rb'))) {
-
-      /*$response = new Response(200, array(), array(
-        'Content-Type: image/png',
-        "Content-Length: " . filesize($file)
-      ));*/
       $response = new Response('', 200);
       $response->headers->set('Content-Type', 'image/png');
       $response->headers->set('Content-Length',  filesize($file));
@@ -105,7 +99,6 @@ class File extends Resource {
 
     // Return a 406 error.
     return new Response('', 406);
-    //return new Response('', 406, array(header('HTTP/1.1 406 Not Acceptable', true, 406)));
   }
 
   /**

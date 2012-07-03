@@ -13,7 +13,6 @@ class MongoResource {
   function __construct($db, $collection, $params) {
     //global $db;
     $collection = $db->selectCollection($collection);
-    //$this->collection = $db ? $db->{$collection} : null;
     $this->collection = $collection;
     $this->id = !empty($params['id']) ? $params['id'] : null;
   }

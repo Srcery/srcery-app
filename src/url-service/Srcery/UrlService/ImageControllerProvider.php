@@ -23,7 +23,6 @@ class ImageControllerProvider implements ControllerProviderInterface
 
         $controllers->match('/{id}', function (Application $app, $id) {
           if (strtolower($app['request']->getMethod()) == 'options') {
-            //$response = new Response('Content', 200, array('content-type' => 'text/html'));
             $response = new Response('', 200);
             $response->prepare($app['request']);
             return $response;
@@ -40,8 +39,8 @@ class ImageControllerProvider implements ControllerProviderInterface
             $response->headers->set('Content-Type', 'application/json');
           }
           return $response;
-        });
-        //->method('GET|OPTIONS');
+        })
+        ->method('GET|OPTIONS|PUT|POST|DELETE');
 
         return $controllers;
     }

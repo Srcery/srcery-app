@@ -13,7 +13,7 @@ class Resource {
 
   // Construct the resource.
   function __construct($db, $params = array(), $options = array()) {
-    $this->db = $db;//new MongoResource($app, 'resources', $params);
+    $this->db = $db;
     $mongo_params = $this->mongoLoad();
     $merged_params = array_merge($params, $mongo_params);
     $this->set($merged_params, $options);
