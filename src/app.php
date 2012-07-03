@@ -28,15 +28,21 @@ $app->register(new SilexExtension\MongoDbExtension(), array(
   ),
 ));
 
+$app->register(new Srcery\Server\SrceryServiceProvider(), array(
+  'srcery.folder' => __DIR__ . '/../web/images',
+  'srcery.place_holder' => __DIR__ . '/../web/assets/default_images',
+  'srcery.mongodb_name' => 'srcery_mongodb',
+));
+
 // Routing.
 $app->get('/', function(Request $request) use($app) {
    //$app['session']->start();
    return 'welcome to srcery';
 });
 
-$app->mount('/instance', new Srcery\UrlService\InstanceControllerProvider());
-$app->mount('/image', new Srcery\UrlService\ImageControllerProvider());
-$app->mount('/derivative', new Srcery\UrlService\DerivativeControllerProvider());
+$app->mount('/inst', new Srcery\UrlService\InstanceControllerProvider());
+$app->mount('/img', new Srcery\UrlService\ImageControllerProvider());
+$app->mount('/der', new Srcery\UrlService\DerivativeControllerProvider());
 
 $app->get('/mongotest', function() use ($app) {
   $coll = $app['mongodb']->selectDatabase('srcery_mongodb')->selectCollection('test_collection');
