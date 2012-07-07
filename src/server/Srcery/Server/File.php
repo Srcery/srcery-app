@@ -20,13 +20,10 @@ class File extends Resource {
       // Get the path of this file.
       $path = $this->folder() . '/' . $this->id;
 
-      // Make sure the file exists...
-      if (file_exists($path)) {
-
-        // Return the path.
-        return $path;
-      }
+      // Return the path.
+      return $path;
     }
+    
     return '';
   }
 
