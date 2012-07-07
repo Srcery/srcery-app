@@ -1,5 +1,14 @@
 {
     "require": {
-        "silex/silex": "1.0.*"
+        "silex/silex": "1.0.*",
+        "fate/silex-extensions": "*",
+        "doctrine/mongodb": "*",
+        "doctrine/common" : "*"
+    },
+    "autoload": {
+        "psr-0": {
+          "Srcery\UrlService" : "src/url-service",
+          "Srcery\Server" : "src/server",
+        }
     }
 }
