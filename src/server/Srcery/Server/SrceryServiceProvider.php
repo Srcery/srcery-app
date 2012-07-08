@@ -32,14 +32,21 @@ class SrceryServiceProvider implements ServiceProviderInterface
           'folder' => $app['srcery.folder'][$app['srcery.resource_type']],
           'place_holder' => $app['srcery.place_holder'][$app['srcery.resource_type']],
         );
+
         switch ($app['srcery.resource_type']) {
           case 'img':
             $resource = new Image($mongoResource, $app['srcery.params'], $options);
             break;
+          case 'inst':
+            $resource = new Instance($mongoResource, $app['srcery.params'], $options);
+            break;
+          case 'der':
+            $resource = new Derivative($mongoResource, $app['srcery.params'], $options);
+            break;
         }
+
         return $resource;
       });
-
     }
 
     public function boot(Application $app)
