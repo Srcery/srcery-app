@@ -9,8 +9,8 @@ use Srcery\UrlService\ResourceControllerProvider;
 
 class InstanceControllerProvider extends ResourceControllerProvider
 {
-    protected function resource_type()
-    {
-        return 'inst';
-    }
+   function __construct()
+   {
+     $this->resource_path = 'inst';
+   }
 }

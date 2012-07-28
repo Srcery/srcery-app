@@ -7,8 +7,8 @@ use Srcery\UrlService\ResourceControllerProvider;
 
 class ImageControllerProvider extends ResourceControllerProvider
 {
-    protected function resource_type()
-    {
-        return 'img';
-    }
+   function __construct()
+   {
+     $this->resource_path = 'img';
+   }
 }

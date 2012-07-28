@@ -29,21 +29,21 @@ $app->register(new SilexExtension\MongoDbExtension(), array(
 ));
 
 $app->register(new Srcery\Server\SrceryServiceProvider(), array(
-  'srcery.folder' => array('img' => __DIR__ . '/../web/images'),
-  'srcery.place_holder' => array('img' => 'placeholder.png'),
+  'srcery.folder' => __DIR__ . '/../web/images',
+  'srcery.place_holder' => 'placeholder.png',
   'srcery.mongodb_name' => 'srcery_mongodb',
   'srcery.resource_collection_name' => 'resources',
 ));
 
-// Routing.
-$app->get('/', function(Request $request) use($app) {
-   //$app['session']->start();
-   return 'welcome to srcery';
-});
+// Mount the controllers.
+$instanceController = new Srcery\UrlService\InstanceControllerProvider();
+$app->mount('/' . $instanceController->resource_path, new Srcery\UrlService\InstanceControllerProvider());
 
-$app->mount('/inst', new Srcery\UrlService\InstanceControllerProvider());
-$app->mount('/img', new Srcery\UrlService\ImageControllerProvider());
-$app->mount('/der', new Srcery\UrlService\DerivativeControllerProvider());
+$imageController = new Srcery\UrlService\ImageControllerProvider();
+$app->mount('/' . $imageController->resource_path, $imageController);
+
+$derivativeController = new Srcery\UrlService\DerivativeControllerProvider();
+$app->mount('/' . $derivativeController->resource_path, $derivativeController);
 
 $app->get('/mongotest', function() use ($app) {
   $coll = $app['mongodb']->selectDatabase('srcery_mongodb')->selectCollection('test_collection');
