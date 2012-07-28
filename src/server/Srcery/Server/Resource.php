@@ -15,6 +15,8 @@ class Resource {
   function __construct($db, $params = array(), $options = array()) {
     $this->db = $db;
     $this->options = $options;
+    $params['id'] = !empty($params['id']) ? $params['id'] : $this->generate_uuid();
+    $this->db->id = $params['id'];
     $this->set(array_merge($this->db->get(), $params));
   }
 
@@ -50,7 +52,7 @@ class Resource {
 
   /** Set values within this object. */
   public function set($params = array()) {
-    $this->id = !empty($params['id']) ? $params['id'] : $this->generate_uuid();
+    $this->id = $params['id'];
   }
 
   public function load() {

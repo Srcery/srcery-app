@@ -26,7 +26,7 @@ class SrceryServiceProvider implements ServiceProviderInterface
         $db_name = !empty($app['srcery.mongodb_name']) ? $app['srcery.mongodb_name'] : $defaults['mongodb_name'];
         $db = $app['mongodb']->selectDatabase($db_name);
         $collection_name = !empty($app['srcery.resource_collection_name']) ? $app['srcery.resource_collection_name'] : $defaults['resource_collection_name'];
-        $mongoResource = new MongoResource($db, $collection_name, $app['srcery.params']);
+        $mongoResource = new MongoResource($db->selectCollection($collection_name));
 
         $options = array(
           'folder' => !empty($app['srcery.folder']) ? $app['srcery.folder'] : $defaults['folder'],

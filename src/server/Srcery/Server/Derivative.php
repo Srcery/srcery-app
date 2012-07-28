@@ -29,6 +29,12 @@ class Derivative extends Resource {
     ));
   }
 
+  public function swap($derivative) {
+    $this->image = $derivative->image;
+
+    // TO-DO: BUILD DERIVATIVE FROM SWAPPED IMAGE
+  }
+
   function save() {
     $this->image->save();
     return parent::save();

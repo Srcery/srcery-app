@@ -25,8 +25,17 @@ class Instance extends Resource {
   }
 
   function save() {
-    $this->derivative->save();
-    return parent::save();
+    // They wish to swap out images.
+    if (!empty($_POST['swap'])) {
+      $db = new MongoResource($this->db->collection);
+      $inst = new Instance($db, array('id' => $_POST['swap']));
+      $this->derivative->swap($inst->derivative);
+      return parent::save();
+    }
+    else {
+      $this->derivative->save();
+      return parent::save();
+    }
   }
 }
 ?>

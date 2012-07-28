@@ -5,15 +5,14 @@ namespace Srcery\Server;
 class MongoResource {
 
   // Nobody should mess with these...
-  private $collection = null;
+  public $collection = null;
+  public $id = null;
+
   private $object = array();
-  private $id = null;
 
   /** Construct the resource. */
-  function __construct($db, $collection, $params) {
-    $collection = $db->selectCollection($collection);
+  function __construct($collection) {
     $this->collection = $collection;
-    $this->id = !empty($params['id']) ? $params['id'] : null;
   }
 
   /** Load this resource. */
@@ -47,7 +46,7 @@ class MongoResource {
 
       // Save the object in mongo.
       $this->object = array_merge($this->object, $object);
-      $this->collection->update(array('id' => $this->id), $this->object);
+      $ret = $this->collection->save($this->object);
     }
     else {
 
@@ -61,8 +60,9 @@ class MongoResource {
 
   /** Get the object representation from mongo. */
   public function get() {
-    $object = $this->load();
-    unset($object['_id']);
+    if ($object = $this->load()) {
+      unset($object['_id']);
+    }
     return $object ? $object : array();
   }
 
