@@ -14,7 +14,7 @@ class Derivative extends Resource {
     $this->width = !empty($params['width']) ? $params['width'] : 0;
     $this->height = !empty($params['height']) ? $params['height'] : 0;
     $image = !empty($params['image']) ? $params['image'] : array();
-    $this->image = new Image($image);
+    $this->image = new Image($this->db, $image, $this->options);
   }
 
   function get() {

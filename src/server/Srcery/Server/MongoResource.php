@@ -11,14 +11,14 @@ class MongoResource {
 
   /** Construct the resource. */
   function __construct($db, $collection, $params) {
-    //global $db;
     $collection = $db->selectCollection($collection);
     $this->collection = $collection;
     $this->id = !empty($params['id']) ? $params['id'] : null;
   }
 
   /** Load this resource. */
-  public function load() {
+  protected function load() {
+    $object = array();
 
     // If the collection or id doesn't exist, then load nothing...
     if (empty($this->collection) || empty($this->id)) {
@@ -56,6 +56,13 @@ class MongoResource {
 
     // Return that this object was saved.
     return true;
+  }
+
+  /** Get the object representation from mongo. */
+  public function get() {
+    $object = $this->load();
+    unset($object['_id']);
+    return $object ? $object : array();
   }
 
   /** Deletes this resource. */

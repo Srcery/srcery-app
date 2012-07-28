@@ -10,10 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResourceControllerProvider implements ControllerProviderInterface
 {
-    protected function resource_type() {
-      return '';
-    }
-
+    public $resource_path = '';
     public function connect(Application $app)
     {
         // creates a new controller based on the default route
@@ -24,24 +21,14 @@ class ResourceControllerProvider implements ControllerProviderInterface
           return new Response(404, 'Unknown resource.');
         });
 
-        // Get the type.
-        $app['srcery.resource_type'] = $this->resource_type();
+        // Get the path.
+        $path = $this->resource_path;
 
         // The controller must have an ID.
-        $controllers->match('/{id}', function (Application $app, $id) {
-
-          // Always return 200 on an options request.
-          if (strtolower($app['request']->getMethod()) == 'options') {
-            $response = new Response('', 200);
-            $response->prepare($app['request']);
-            return $response;
-          }
-
-          if (!empty($id)) {
-            $params['id'] = $id;
-          }
-          $app['srcery.params'] = $params;
-          $resource = $app['srcery.activeresource'];
+        $controllers->match('/{id}', function (Application $app, $id) use ($path) {
+          $app['srcery.resource_path'] = $path;
+          $app['srcery.params'] = array('id' => $id);
+          $resource = $app['srcery.resource'];
           $response = $resource->handleRequest($app['request']);
           $response_content = $response->getContent();
           if (!empty($response_content)) {
@@ -49,7 +36,7 @@ class ResourceControllerProvider implements ControllerProviderInterface
           }
           return $response;
         })
-        ->method('GET|OPTIONS|PUT|POST|DELETE');
+        ->method('GET|PUT|POST|DELETE');
 
         return $controllers;
     }

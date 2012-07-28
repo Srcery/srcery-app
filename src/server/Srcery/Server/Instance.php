@@ -7,10 +7,10 @@ class Instance extends Resource {
   /** @see Derivative */
   public $derivative = null;
 
-  function set($params) {
-    parent::set($params);
+  function set($params, $options = array()) {
+    parent::set($params, $options);
     $derivative = !empty($params['derivative']) ? $params['derivative'] : array();
-    $this->derivative = new Derivative($derivative);
+    $this->derivative = new Derivative($this->db, $derivative, $this->options);
   }
 
   function get() {

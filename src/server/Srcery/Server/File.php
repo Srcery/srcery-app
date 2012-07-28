@@ -6,6 +6,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class File extends Resource {
 
+  public $folder = '';
+  public $place_holder = '';
+  public $extensions = array();
+  public $post_name = 'file';
+
+  // Construct the file.
+  function __construct($db, $params = array(), $options = array()) {
+    parent::__construct($db, $params, $options);
+    $this->folder = $options['folder'];
+    $this->place_holder = $options['place_holder'];
+  }
+
   /** Returns the extension of the provided file. */
   protected function extension($file) {
     return strtolower(substr($file, strrpos($file, '.') + 1));
@@ -15,15 +27,15 @@ class File extends Resource {
   private function path() {
 
     // Make sure the id is not equal to the placeholder.
-    if ($this->id != $this->place_holder()) {
+    if ($this->id != $this->place_holder) {
 
       // Get the path of this file.
-      $path = $this->folder() . '/' . $this->id;
+      $path = $this->folder . '/' . $this->id;
 
       // Return the path.
       return $path;
     }
-    
+
     return '';
   }
 
@@ -38,7 +50,7 @@ class File extends Resource {
 
     // If the file doesn't exist, then get the placeholder.
     if (!file_exists($file)) {
-      $file = $this->folder() . '/' . $this->place_holder();
+      $file = $this->folder . '/' . $this->place_holder;
     }
 
     // If the file exists, then stream it to the browser.
@@ -62,24 +74,18 @@ class File extends Resource {
    */
   public function save() {
 
-    // The allowed extensions.
-    $allowed_ext = $this->allowed_extensions();
-
-    // Get the post name of the file.
-    $post_name = $this->post_name();
-
     // See if our image upload exists.
-    if (array_key_exists($post_name, $_FILES) && $_FILES[$post_name]['error'] == 0) {
+    if (array_key_exists($this->post_name, $_FILES) && $_FILES[$this->post_name]['error'] == 0) {
 
       // Make sure the file path is valid.
       if ($file = $this->path()) {
 
         // Get the upload.
-        $new_file = $_FILES[$post_name];
+        $new_file = $_FILES[$this->post_name];
 
         // Check to see if this image has the extensions allowed.
-        if (!in_array($this->extension($new_file['name']), $allowed_ext)) {
-          return new Response('Only ' . implode(',', $allowed_ext) . ' files are allowed!', 406);
+        if (!in_array($this->extension($new_file['name']), $this->extensions)) {
+          return new Response('Only ' . implode(',', $this->extensions) . ' files are allowed!', 406);
         }
 
         // For now just delete the old file.
@@ -106,22 +112,6 @@ class File extends Resource {
     if ($file = $this->path() && file_exists($file)) {
       unlink($file);
     }
-  }
-
-  protected function folder() {
-    return empty($this->folder) ? 'files' : $this->folder;
-  }
-
-  protected function place_holder() {
-    return empty($this->place_holder) ? '' : $this->place_holder;
-  }
-
-  protected function allowed_extensions() {
-    return array();
-  }
-
-  protected function post_name() {
-    return 'file';
   }
 }
 ?>
