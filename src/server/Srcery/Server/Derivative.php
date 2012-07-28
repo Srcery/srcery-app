@@ -9,6 +9,10 @@ class Derivative extends Resource {
   /** @see Image */
   public $image = null;
 
+  function load() {
+    return $this->image->load();
+  }
+
   function set($params) {
     parent::set($params);
     $this->width = !empty($params['width']) ? $params['width'] : 0;
