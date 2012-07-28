@@ -26,6 +26,10 @@ class ResourceControllerProvider implements ControllerProviderInterface
 
         // The controller must have an ID.
         $controllers->match('/{id}', function (Application $app, $id) use ($path) {
+          if ($app['request']->getMethod() == 'OPTIONS') {
+            return new Response('', 200);
+          }
+
           $app['srcery.resource_path'] = $path;
           $app['srcery.params'] = array('id' => $id);
           $resource = $app['srcery.resource'];
@@ -36,7 +40,7 @@ class ResourceControllerProvider implements ControllerProviderInterface
           }
           return $response;
         })
-        ->method('GET|PUT|POST|DELETE');
+        ->method('GET|PUT|POST|DELETE|OPTIONS');
 
         return $controllers;
     }

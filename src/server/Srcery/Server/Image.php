@@ -8,4 +8,8 @@ class Image extends File {
     $this->extensions = array('jpg', 'jpeg', 'png', 'gif');
     $this->post_name = 'img';
   }
+
+  public function getMimeType($file) {
+    return 'image/' . $this->extension($file);
+  }
 }

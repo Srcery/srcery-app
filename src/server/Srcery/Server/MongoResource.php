@@ -46,7 +46,8 @@ class MongoResource {
     if (!empty($this->object['_id'])) {
 
       // Save the object in mongo.
-      $this->object = $this->collection->save($object);
+      $this->object = array_merge($this->object, $object);
+      $this->collection->update(array('id' => $this->id), $this->object);
     }
     else {
 

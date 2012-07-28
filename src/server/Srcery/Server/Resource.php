@@ -15,7 +15,7 @@ class Resource {
   function __construct($db, $params = array(), $options = array()) {
     $this->db = $db;
     $this->options = $options;
-    $this->set(array_merge($params, $this->db->get()));
+    $this->set(array_merge($this->db->get(), $params));
   }
 
   /**
@@ -53,12 +53,8 @@ class Resource {
     $this->id = !empty($params['id']) ? $params['id'] : $this->generate_uuid();
   }
 
-  /** Load values from the database */
   public function load() {
-    return new Response(json_encode(array_merge(
-      $this->db->get(),
-      $this->get()
-    )), 200);
+    return new Response(json_encode($this->get()), 200);
   }
 
   /** Save this resource to the database. */

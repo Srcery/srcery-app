@@ -10,6 +10,9 @@ class File extends Resource {
   public $place_holder = '';
   public $extensions = array();
   public $post_name = 'file';
+  public $size = 0;
+  public $mimetype = '';
+  public $name = '';
 
   // Construct the file.
   function __construct($db, $params = array(), $options = array()) {
@@ -21,6 +24,11 @@ class File extends Resource {
   /** Returns the extension of the provided file. */
   protected function extension($file) {
     return strtolower(substr($file, strrpos($file, '.') + 1));
+  }
+
+  /** Returns the mime type. **/
+  protected function getMimeType($file) {
+    return 'text/plain';
   }
 
   /** The path of the file. */
@@ -37,6 +45,21 @@ class File extends Resource {
     }
 
     return '';
+  }
+
+  function set($params) {
+    parent::set($params);
+    $this->size = !empty($params['size']) ? $params['size'] : 0;
+    $this->mimetype = !empty($params['mimetype']) ? $params['mimetype'] : 'text/plain';
+    $this->name = !empty($params['name']) ? $params['name'] : '';
+  }
+
+  function get() {
+    return array_merge(parent::get(), array(
+      'size' => $this->size,
+      'mimetype' => !empty($this->mimetype) ? $this->mimetype : 'text/plain',
+      'name' => !empty($this->name) ? $this->name : '',
+    ));
   }
 
   /**
@@ -56,8 +79,8 @@ class File extends Resource {
     // If the file exists, then stream it to the browser.
     if (file_exists($file) && ($fp = fopen($file, 'rb'))) {
       $response = new Response('', 200);
-      $response->headers->set('Content-Type', 'image/png');
-      $response->headers->set('Content-Length',  filesize($file));
+      $response->headers->set('Content-Type', $this->mimetype);
+      $response->headers->set('Content-Length', filesize($file));
       fpassthru($fp);
       fclose($fp);
     }
@@ -93,9 +116,14 @@ class File extends Resource {
           unlink($file);
         }
 
+        // Set the parameters.
+        $this->name = $new_file['name'];
+        $this->mimetype = $this->getMimeType($new_file['name']);
+        $this->size = filesize($new_file['tmp_name']);
+
         // Now move the image upload to the upload directory.
         if (move_uploaded_file($new_file['tmp_name'], $file)) {
-          return new Response(json_encode(array('id' => $this->id)), 200);
+          return parent::save();
         }
       }
     }
@@ -111,7 +139,9 @@ class File extends Resource {
   public function delete() {
     if ($file = $this->path() && file_exists($file)) {
       unlink($file);
+      return parent::delete();
     }
+    return new Response('', 406);
   }
 }
 ?>
