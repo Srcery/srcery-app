@@ -9,12 +9,16 @@ class Derivative extends Resource {
   /** @see Image */
   public $image = null;
 
+  function load() {
+    return $this->image->load();
+  }
+
   function set($params) {
     parent::set($params);
     $this->width = !empty($params['width']) ? $params['width'] : 0;
     $this->height = !empty($params['height']) ? $params['height'] : 0;
     $image = !empty($params['image']) ? $params['image'] : array();
-    $this->image = new Image($image);
+    $this->image = new Image($this->db, $image, $this->options);
   }
 
   function get() {
@@ -23,6 +27,12 @@ class Derivative extends Resource {
       'height' => $this->height,
       'image' => $this->image->get(),
     ));
+  }
+
+  public function swap($derivative) {
+    $this->image = $derivative->image;
+
+    // TO-DO: BUILD DERIVATIVE FROM SWAPPED IMAGE
   }
 
   function save() {

@@ -7,10 +7,14 @@ class Instance extends Resource {
   /** @see Derivative */
   public $derivative = null;
 
-  function set($params) {
-    parent::set($params);
+  function load() {
+    return $this->derivative->load();
+  }
+
+  function set($params, $options = array()) {
+    parent::set($params, $options);
     $derivative = !empty($params['derivative']) ? $params['derivative'] : array();
-    $this->derivative = new Derivative($derivative);
+    $this->derivative = new Derivative($this->db, $derivative, $this->options);
   }
 
   function get() {
@@ -21,8 +25,17 @@ class Instance extends Resource {
   }
 
   function save() {
-    $this->derivative->save();
-    return parent::save();
+    // They wish to swap out images.
+    if (!empty($_POST['swap'])) {
+      $db = new MongoResource($this->db->collection);
+      $inst = new Instance($db, array('id' => $_POST['swap']));
+      $this->derivative->swap($inst->derivative);
+      return parent::save();
+    }
+    else {
+      $this->derivative->save();
+      return parent::save();
+    }
   }
 }
 ?>

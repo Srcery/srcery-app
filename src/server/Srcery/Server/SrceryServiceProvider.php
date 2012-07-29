@@ -16,24 +16,24 @@ class SrceryServiceProvider implements ServiceProviderInterface
     {
 
       $defaults = array(
-        'folder' => array(),
-        'place_holder' => array(),
+        'folder' => '',
+        'place_holder' => '',
         'mongodb_name' => 'srcery_mongodb',
         'resource_collection_name' => '',
       );
 
-      $app['srcery.activeresource'] = $app->share(function () use ($app, $defaults) {
-        $db_name = $app['srcery.mongodb_name'] ? $app['srcery.mongodb_name'] : $defaults['mongodb_name'];
+      $app['srcery.resource'] = $app->share(function () use ($app, $defaults) {
+        $db_name = !empty($app['srcery.mongodb_name']) ? $app['srcery.mongodb_name'] : $defaults['mongodb_name'];
         $db = $app['mongodb']->selectDatabase($db_name);
-        $collection_name = $app['srcery.resource_collection_name'] ? $app['srcery.resource_collection_name'] : $defaults['resource_collection_name'];
-        $mongoResource = new MongoResource($db, $collection_name, $app['srcery.params']);
+        $collection_name = !empty($app['srcery.resource_collection_name']) ? $app['srcery.resource_collection_name'] : $defaults['resource_collection_name'];
+        $mongoResource = new MongoResource($db->selectCollection($collection_name));
 
         $options = array(
-          'folder' => $app['srcery.folder'][$app['srcery.resource_type']],
-          'place_holder' => $app['srcery.place_holder'][$app['srcery.resource_type']],
+          'folder' => !empty($app['srcery.folder']) ? $app['srcery.folder'] : $defaults['folder'],
+          'place_holder' => !empty($app['srcery.place_holder']) ? $app['srcery.place_holder'] : $defaults['place_holder'],
         );
 
-        switch ($app['srcery.resource_type']) {
+        switch ($app['srcery.resource_path']) {
           case 'img':
             $resource = new Image($mongoResource, $app['srcery.params'], $options);
             break;

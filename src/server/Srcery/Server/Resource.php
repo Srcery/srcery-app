@@ -14,9 +14,10 @@ class Resource {
   // Construct the resource.
   function __construct($db, $params = array(), $options = array()) {
     $this->db = $db;
-    $mongo_params = $this->mongoLoad();
-    $merged_params = array_merge($params, $mongo_params);
-    $this->set($merged_params, $options);
+    $this->options = $options;
+    $params['id'] = !empty($params['id']) ? $params['id'] : $this->generate_uuid();
+    $this->db->id = $params['id'];
+    $this->set(array_merge($this->db->get(), $params));
   }
 
   /**
@@ -50,19 +51,12 @@ class Resource {
   }
 
   /** Set values within this object. */
-  public function set($params = array(), $options = array()) {
-    $this->id = !empty($params['id']) ? $params['id'] : $this->generate_uuid();
-    $this->folder = $options['folder'];
-    $this->place_holder = $options['place_holder'];
-    // @todo add more if needed.
+  public function set($params = array()) {
+    $this->id = $params['id'];
   }
 
-  /** Load values from the database */
   public function load() {
-    return new Response(json_encode(array_merge(
-      $this->mongoLoad(),
-      $this->get()
-    )), 200);
+    return new Response(json_encode($this->get()), 200);
   }
 
   /** Save this resource to the database. */
@@ -76,13 +70,6 @@ class Resource {
   /** Deletes a resource from the database. */
   public function delete() {
     return $this->db->delete() ? new Response('', 200) : new Response('', 406);
-  }
-
-  /** Loads a mongo object, and sanitizes it. */
-  private function mongoLoad() {
-    $object = $this->db->load();
-    unset($object['_id']);
-    return $object ? $object : array();
   }
 
   /** Generates a new uuid. */

@@ -9,8 +9,8 @@ use Srcery\UrlService\ResourceControllerProvider;
 
 class DerivativeControllerProvider extends ResourceControllerProvider
 {
-    protected function resource_type()
-    {
-        return 'der';
-    }
+   function __construct()
+   {
+     $this->resource_path = 'der';
+   }
 }
